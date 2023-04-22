@@ -6,16 +6,16 @@ RUN apk add npm
 
 COPY package.json package-lock.json /build/
 
-RUN npm install --production
+RUN npm install --omit=dev
 
 FROM node:lts-alpine as app
 
 WORKDIR /app
 
-COPY --from=build /build/package.json /build/package-lock.json ./
+COPY ./package.json ./package-lock.json ./
 COPY --from=build /build/node_modules node_modules
 COPY ./src ./src
 
+EXPOSE 80
+
 CMD ["npm", "start"]
-
-

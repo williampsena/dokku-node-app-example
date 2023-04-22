@@ -18,13 +18,16 @@ services:
       retries: 5
   
   app:
-    build: ./
+    build: 
+      context: ./
+      args:
+        - APP_PORT=8500
     networks:
       - web
     ports:
-      - 8500:5000
+      - 8500:8500
     environment:
-      PORT: 5000
+      PORT: 8500
       MONGO_URL: "mongodb://mongo:27017/users"
 
 networks:

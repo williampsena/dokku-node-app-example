@@ -5,7 +5,7 @@ import morgan from "morgan"
 import { User, dbConnect } from "./db"
 
 const app = express()
-const port = parseInt(process.env["PORT"] || "3000")
+const port = parseInt(process.env["APP_PORT"] || "80")
 
 dbConnect(process.env["MONGO_URL"] || "mongodb://127.0.0.1:27017/users")
 
@@ -59,11 +59,11 @@ app.use(function (err, _req, res, _next) {
   })
 } as express.ErrorRequestHandler)
 
-app.use(function (req, res, _next) {
+app.use(function (_req, res, _next) {
   res.status(404)
   res.send("invalid path")
 } as express.RequestHandler)
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`App listening on port ${port}`)
 })
